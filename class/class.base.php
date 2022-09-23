@@ -16,7 +16,6 @@ class Base
     }
 
 
-
     /**
      * @param int $id identifiant du membre
      * @return array liste des modules dont le membre a en charge la gestion
@@ -33,6 +32,38 @@ class Base
 EOD;
         $curseur = $db->prepare($sql);
         $curseur->bindParam('idMembre', $id);
+        $curseur->execute();
+        $lesLignes = $curseur->fetchAll(PDO::FETCH_ASSOC);
+        $curseur->closeCursor();
+        return $lesLignes;
+    }
+
+    public static function getLesMembres(): array
+    {
+        $sql = <<<EOD
+              Select login, concat(nom,' ',prenom) as nom, email, autMail, photo, telephone
+              from membre
+              order by nom;
+EOD;
+        $db = Database::getInstance();
+        $curseur = $db->query($sql);
+        $lesLignes = $curseur->fetchAll(PDO::FETCH_NUM);
+        $curseur->closeCursor();
+        return $lesLignes;
+    }
+
+    /**
+     * @return array Retourne la liste des liens
+     */
+    public static function getLesLiens(): array
+    {
+        $db = Database::getInstance();
+        $sql = <<<EOD
+                Select id, nom, url, logo, actif
+	            from lien
+	            order by nom;
+EOD;
+        $curseur = $db->prepare($sql);
         $curseur->execute();
         $lesLignes = $curseur->fetchAll(PDO::FETCH_ASSOC);
         $curseur->closeCursor();

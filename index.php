@@ -106,6 +106,16 @@ require RACINE . '/include/head.php';
     </div>
 </div>
 
+<div id="msg" class="m-3"></div>
+<div class="card border-dark mx-2 mb-2">
+    <div class="card-header text-white" style="background-color: #343a40">
+        <span style="" class="card-text">Quelques lien utiles concernant la course à pied</span>
+    </div>
+    <div class="card-body">
+        <div id='liens' class=""></div>
+    </div>
+</div>
+
 <?php
 if ($cadreAdmin !== '') {
     ?>

@@ -6,13 +6,11 @@
 
 require '../include/initialisation.php';
 
-
 // Tableau stockant l'ensemble des tableaux de données à retourner
 $lesDonnees = [];
 
 // la classe Database sera chargée dynamiquement (pas besoin de require)
 $lesDonnees['bandeau'] = base::getLeBandeau();
-
 
 // récupération de la prochaine édition des 4 saisons
 
@@ -25,9 +23,6 @@ $lesDonnees['bandeau'] = base::getLeBandeau();
 
 
 // récupération des liens utiles
-
-
-
-
+$lesDonnees['lien'] = base::getLesLiens();
 
 echo json_encode($lesDonnees);

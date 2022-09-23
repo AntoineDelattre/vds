@@ -43,7 +43,6 @@ function afficher(data) {
     // alimentation du bandeau
     detailBandeau.innerHTML = data.bandeau;
 
-
     // afficher le dernier résultat de moins de 15 jours publié sur le site de la F.F.A
 
 
@@ -55,7 +54,20 @@ function afficher(data) {
 
 
     // affichage des liens
+    for (const element of data.lien) {
+        if (element.actif === 1) {
+            let a = document.createElement("a");
+            a.href = element.url;
+            let img = document.createElement('img');
+            img.src = 'data/logolien/' + element.logo;
+            img.style.marginRight = '50px';
+            img.style.height = '65px';
+            img.title = element.nom;
+            a.appendChild(img);
+            liens.appendChild(a);
+        }
+    }
 
-    
+
     pied.style.visibility = 'visible';
 }
