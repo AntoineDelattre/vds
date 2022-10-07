@@ -1,6 +1,6 @@
 <?php
 /**
- * Interface d'ajout d'un membre
+ * Interface d'ajout d'un lien vers un autre site
  */
 
 require '../include/initialisation.php';
@@ -10,6 +10,7 @@ require RACINE . '/include/head.php';
 ?>
 
 <script src="ajout.js"></script>
+
 <div class="border p-3 mt-3">
     <div id="msg" class="m-3"></div>
     <div class="row">
@@ -20,7 +21,7 @@ require RACINE . '/include/head.php';
                    class="form-control ctrl  "
                    required
                    maxlength='30'
-                   pattern="^[A-Za-z]([A-Za-z ]*[A-Za-z])*$"
+                   pattern="^[A-Za-z]([A-Za-z0-9 ]*[A-Za-z0-9])*$"
                    autocomplete="off">
             <div class='messageErreur'></div>
         </div>
@@ -31,7 +32,7 @@ require RACINE . '/include/head.php';
                    class="form-control ctrl"
                    required
                    maxlength='50'
-                   pattern="^[A-Za-z]([A-Za-z ]*[A-Za-z])*$"
+                   pattern="((http://|https://)?(www.)?(([a-zA-Z0-9-]){2,}\.){1,4}([a-zA-Z]){2,6}(/([a-zA-Z-_/.0-9#:?=&;,]*)?)?)"
                    autocomplete="off">
             <div class='messageErreur'></div>
         </div>
@@ -68,12 +69,12 @@ require RACINE . '/include/head.php';
     <br>
 
     <div class="form-check form-switch ">
-        <input class="form-check-input" type="checkbox" id="visible" name="visible" checked>
-        <label class="form-check-label" for="visible">Rendre le lien visible</label>
+        <input class="form-check-input" type="checkbox" id="actif" name="actif" checked>
+        <label class="form-check-label" for="actif">Rendre le lien visible</label>
     </div>
 
     <div class="text-center">
-        <button id='btnAjouter' class="btn btn btn-danger">Ajouter</button>
+        <button id='btnAjouter' class="btn btn-danger">Ajouter</button>
     </div>
 </div>
 

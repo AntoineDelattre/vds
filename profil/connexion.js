@@ -68,10 +68,13 @@ function connecter() {
             type: 'POST',
             data: {login: login.value, password: password.value},
             dataType: 'json',
-            error: reponse => { msg.innerHTML = Std.genererMessage(reponse.responseText)},
-            success: () => {
-                    location.href = "/index.php"
+            error: reponse => {
+                msg.innerHTML = Std.genererMessage(reponse.responseText)
+            },
+            success: (url) => {
+                location.href = url
             }
+
         })
     }
 }

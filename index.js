@@ -68,6 +68,5 @@ function afficher(data) {
         }
     }
 
-
     pied.style.visibility = 'visible';
 }
