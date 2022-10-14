@@ -23,6 +23,7 @@ require RACINE . '/include/head.php';
         </div>
     </div>
 </div>
+<div id='lesCartes'></div>
 
 
 <?php require RACINE . '/include/pied.php'; ?>

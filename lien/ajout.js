@@ -84,7 +84,10 @@ function ajouter() {
                     fermeture: 1,
                 }
                 Std.afficherMessage(parametre);
-                Std.viderLesChamps()
+                Std.viderLesChamps();
+                messageCible.innerText = "";
+                leFichier = null;
+                init();
             }
         })
     }

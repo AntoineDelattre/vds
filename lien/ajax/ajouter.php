@@ -57,6 +57,10 @@ if (!in_array($type, $lesTypes)) {
     exit;
 }
 
+// Ajout de l'extension au nom du logo
+$logo = $logo . "." . $extension;
+$logo = mb_strtolower($logo);
+
 $reponse = "";
 if (lien::ajouter($nom, $url, $logo, $actif, $reponse)) {
     // copie sur le serveur

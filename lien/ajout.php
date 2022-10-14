@@ -49,10 +49,11 @@ require RACINE . '/include/head.php';
                  style="height: 200px">
 
                 <i class="bi-upload" style="font-size: 4rem"></i>
-                <div>Cliquez ou déposer le document PDF ici</div>
+                <div>Cliquez ou déposer le logo ici</div>
             </div>
             Fichier téléchargé : <span id='messageCible'></span>
         </div>
+
         <div class="col-md-6 col-12">
             <label for="nomlogo" class="col-form-label">Nom du logo</label>
             <input id="nomlogo"
@@ -60,7 +61,7 @@ require RACINE . '/include/head.php';
                    class="form-control ctrl  "
                    required
                    maxlength='30'
-                   pattern="^[A-Za-z0-9]*$"
+                   pattern="^[A-Za-z]([A-Za-z0-9])*$"
                    autocomplete="off">
             <div class='messageErreur'></div>
         </div>
