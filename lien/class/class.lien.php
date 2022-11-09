@@ -3,6 +3,45 @@
 class lien
 {
     /**
+     * Récupération des liens
+     * @return array
+     */
+    public static function getLesLiens(): array
+    {
+        $db = Database::getInstance();
+        $sql = <<<EOD
+            Select DISTINCT id, nom, url, logo, actif
+            From lien
+            Order by actif desc, nom;
+EOD;
+        $curseur = $db->query($sql);
+        $lesLignes = $curseur->fetchAll(PDO::FETCH_ASSOC);
+        $curseur->closeCursor();
+        return $lesLignes;
+    }
+
+    /**
+     * Récupération du nom, de l'url et du logo selon l'id transmis
+     * @param string $lien
+     * @return bool
+     */
+    public static function remplirLien(string $lien): array
+    {
+        $db = Database::getInstance();
+        $sql = <<<EOD
+            Select id, nom, url, logo
+            From lien
+            where id = :lien
+EOD;
+        $curseur = $db->prepare($sql);
+        $curseur->bindParam('lien', $lien);
+        $curseur->execute();
+        $lesLignes = $curseur->fetch(PDO::FETCH_ASSOC);
+        $curseur->closeCursor();
+        return $lesLignes;
+    }
+
+    /**
      * Ajoute le lien avec son nom, son url, son logo et si il est actif ou non
      * @param string $nom
      * @param string $url
@@ -18,7 +57,7 @@ class lien
             Select id
             From lien
             Where logo = :logo
-            and url = :url
+            or url = :url
 EOD;
         $db = Database::getInstance();
         $curseur = $db->prepare($sql);
@@ -49,24 +88,6 @@ EOD;
             }
         }
         return $ok;
-    }
-
-    /**
-     * Récupération des liens
-     * @return array
-     */
-    public static function getLesLiens(): array
-    {
-        $db = Database::getInstance();
-        $sql = <<<EOD
-            Select DISTINCT id, nom, url, logo, actif
-            From lien
-            Order by actif desc, nom;
-EOD;
-        $curseur = $db->query($sql);
-        $lesLignes = $curseur->fetchAll(PDO::FETCH_ASSOC);
-        $curseur->closeCursor();
-        return $lesLignes;
     }
 
     /**

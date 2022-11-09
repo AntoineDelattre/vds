@@ -48,9 +48,10 @@ function afficher(data) {
         header.innerText = element.nom;
         header.style.height = "50px";
 
+
         // génération de l'icône de suppression avec un alignement à droite
         let btnSupprime = document.createElement('i');
-        btnSupprime.classList.add("bi", "bi-x", "fs-2", "text-danger", "float-end");
+        btnSupprime.classList.add("bi-x", "fs-2", "float-end");
         btnSupprime.title = 'Supprimer le lien';
         new bootstrap.Tooltip(btnSupprime, {placement: 'bottom'});
         btnSupprime.onclick = () => Std.confirmer(() => supprimer(element));
@@ -63,7 +64,7 @@ function afficher(data) {
         corps.classList.add("card-body", "text-center");
         let img = document.createElement('img');
         img.src = '../data/logolien/' + element.logo;
-        img.style.width = "100px";
+        img.style.width = "auto";
         img.style.height = "100px";
         img.alt = "";
         img.title = element.logo;
@@ -75,18 +76,32 @@ function afficher(data) {
         pied.classList.add('card-footer');
         pied.innerText = element.url;
 
+        /*
+        // génération de l'icône de modifiation avec un alignement à droite
+        let btnModif = document.createElement('i');
+        btnModif.classList.add("bi-pencil-square", "fs-4", "text-danger", "float-end");
+        btnModif.style.paddingRight = "10px";
+        btnModif.id = "btnM" + element.id;
+        btnModif.title = 'Modifier le lien';
+        new bootstrap.Tooltip(btnModif, {placement: 'bottom'});
+        btnModif.onclick = () => {
+            window.location = "modif.php(this.id)";
+        }
+        */
+
         // Génération de l'icone pour rendre actif le lien
         let btnActif = document.createElement('i');
         btnActif.title = 'Rend le lien actif ou non';
         btnActif.value = element.actif;
         if (btnActif.value === 1)
-            btnActif.classList.add("bi", "bi-eye", "fs-4", "text-danger", "float-end");
+            btnActif.classList.add("bi-eye", "fs-4", "float-end");
         else if (btnActif.value === 0)
-            btnActif.classList.add("bi", "bi-eye-slash", "fs-4", "text-danger", "float-end");
+            btnActif.classList.add("bi-eye-slash", "fs-4", "float-end");
         new bootstrap.Tooltip(btnActif, {placement: 'bottom'});
         btnActif.onclick = () => modifierActif(element);
 
         pied.appendChild(btnActif);
+        // pied.appendChild(btnModif);
         carte.appendChild(pied);
 
         col.appendChild(carte);

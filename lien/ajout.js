@@ -1,7 +1,7 @@
 ﻿"use strict";
 
 /**
- * Saisie d'un nouvel adhérent
+ * Saisie d'un nouveau lien
  *     Contrôle des champs de saisie par expression régulière
  *         Tous les champs sont obligatoires
  */
@@ -22,7 +22,7 @@ function init() {
 
     url.onkeypress = (e) => /^[A-Za-z0-9/:.]$/.test(e.key);
 
-    nomlogo.onkeypress = (e) => /^[A-Za-z0-9]$/.test(e.key);
+    nomlogo.onkeypress = (e) => /^[A-Za-z0-9_]$/.test(e.key);
 
     // paramétrage de la zone d'upload
     cible.onclick = () => logo.click();
@@ -43,18 +43,27 @@ function init() {
 
 /**
  * Contrôle sur le fichier téléversé
- * @param {file} file objet file à contrôler
+ * @param file  objet file à contrôler
  */
 function controlerLogo(file) {
     messageCible.innerHTML = "";
     let controle = {taille: 30 * 1024, lesExtensions: ["jpg", "png"]};
     if (Std.fichierValide(file, controle)) {
+        cible.innerHTML = "";
         messageCible.innerText = file.name;
         leFichier = file;
+        let img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.style.width = "auto";
+        img.style.height = "100px";
+        cible.appendChild(img);
     } else
         messageCible.innerHTML = controle.reponse;
 }
 
+/**
+ * Ajout du lien
+ */
 function ajouter() {
     if (Std.donneesValides()) {
         // lancement de la demande d'ajout dans la base
@@ -89,7 +98,7 @@ function ajouter() {
                 leFichier = null;
                 init();
             }
-        })
+        });
     }
 }
 

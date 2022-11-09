@@ -5,13 +5,18 @@
 
 require '../include/initialisation.php';
 require '../include/controleacces.php';
-$titreFonction = "Ajout d'un nouveau lien";
+$titreFonction = "Modifier un lien";
 require RACINE . '/include/head.php';
 ?>
 
-<script src="ajout.js"></script>
+<script src="modif.js"></script>
 
 <div class="border p-3 mt-3">
+    <div class="">
+        <label for="lien" class="col-form-label">Lien</label>
+        <select class="form-select shadow-none" id="lien"></select>
+    </div>
+
     <div id="msg" class="m-3"></div>
     <div class="row">
         <div class="col-md-6 col-12">
@@ -42,14 +47,11 @@ require RACINE . '/include/head.php';
 
     <div class="row">
         <div class="col-md-6 col-12">
-            Ajouter le logo
+            Logo
             <input type="file" id="logo" accept=".jpg, .png" style='display: none '>
             <div id="cible" class="upload"
                  data-bs-html="true"
                  style="height: 200px">
-
-                <i class="bi-upload" style="font-size: 4rem"></i>
-                <div>Cliquez ou déposer le logo ici</div>
             </div>
             Fichier téléchargé : <span id='messageCible'></span>
         </div>
@@ -69,13 +71,8 @@ require RACINE . '/include/head.php';
 
     <br>
 
-    <div class="form-check form-switch ">
-        <input class="form-check-input" type="checkbox" id="actif" name="actif" checked>
-        <label class="form-check-label" for="actif">Rendre le lien visible</label>
-    </div>
-
     <div class="text-center">
-        <button id='btnAjouter' class="btn btn-danger">Ajouter</button>
+        <button id='btnModifier' class="btn btn-success">Modifier</button>
     </div>
 </div>
 
