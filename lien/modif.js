@@ -97,6 +97,8 @@ function controlerLogo(file) {
         img.style.width = "auto";
         img.style.height = "100px";
         cible.appendChild(img);
+        // Déclaration de cible.value à 1 quand il y a un changement de logo
+        cible.value = 1;
     } else
         messageCible.innerHTML = controle.reponse;
 }
@@ -105,9 +107,23 @@ function controlerLogo(file) {
  * Modifie le lien
  */
 function modifier() {
+
+    let extension = messageCible.innerText.substr(-4);
+    let monFichier = new FormData();
+    monFichier.append('fichier', leFichier);
+    monFichier.append('id', lien.value);
+    monFichier.append('nom', nom.value);
+    monFichier.append('logo', nomlogo.value);
+    monFichier.append('url', url.value);
+    monFichier.append('imgChange', cible.value);
+    monFichier.append('extension', extension);
+
     $.ajax({
         url: 'ajax/modifier.php',
         type: 'POST',
+        data: monFichier,
+        processData: false,
+        contentType: false,
         dataType: 'json',
         success: function () {
             let parametre = {
@@ -116,9 +132,8 @@ function modifier() {
                 fermeture: 1,
             }
             Std.afficherMessage(parametre);
-            init();
-        }
-        ,
+
+        },
         error: (reponse) => console.error(reponse.responseText)
     });
 }

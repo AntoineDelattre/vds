@@ -21,6 +21,26 @@ EOD;
     }
 
     /**
+     * Récupération du nom de l'ancien nom du logo pour pourvoir le renommer sur le serveur
+     * @return array
+     */
+    public static function getLeNomLogo(int $id): array
+    {
+        $db = Database::getInstance();
+        $sql = <<<EOD
+            Select DISTINCT logo
+            From lien
+            where id = :id;
+EOD;
+        $curseur = $db->prepare($sql);
+        $curseur->bindParam('id', $id);
+        $curseur->execute();
+        $lesLignes = $curseur->fetch(PDO::FETCH_ASSOC);
+        $curseur->closeCursor();
+        return $lesLignes;
+    }
+
+    /**
      * Récupération du nom, de l'url et du logo selon l'id transmis
      * @param string $lien
      * @return bool
@@ -120,7 +140,40 @@ EOD;
     }
 
     /**
-     * Supprime le lien sélectionner
+     * Modifie le lien
+     * @param int $id
+     * @param string $nom
+     * @param string $url
+     * @param string $nomlogo
+     * @param string $reponse
+     * @return bool
+     */
+    public static function modifier(int $id, string $nom, string $url, string $logo, string &$reponse): bool
+    {
+        $ok = false;
+        $db = Database::getInstance();
+        $sql = <<<EOD
+            Update lien
+                Set nom = :nom, url = :url, logo = :logo
+            where id = :id
+EOD;
+        $curseur = $db->prepare($sql);
+        $curseur->bindParam('nom', $nom);
+        $curseur->bindParam('url', $url);
+        $curseur->bindParam('logo', $logo);
+        $curseur->bindParam('id', $id);
+        try {
+            $curseur->execute();
+            $ok = true;
+            echo 1;
+        } catch (Exception $e) {
+            $reponse = substr($e->getMessage(), strrpos($e->getMessage(), '#') + 1);
+        }
+        return $ok;
+    }
+
+    /**
+     * Supprime le lien sélectionné
      * @param string $id
      * @param string $reponse
      * @return bool

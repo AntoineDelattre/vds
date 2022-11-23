@@ -20,7 +20,7 @@ require RACINE . '/include/head.php';
                    type="text"
                    class="form-control ctrl  "
                    required
-                   maxlength='30'
+                   maxlength='50'
                    pattern="^[A-Za-z]([A-Za-z0-9 ]*[A-Za-z0-9])*$"
                    autocomplete="off">
             <div class='messageErreur'></div>

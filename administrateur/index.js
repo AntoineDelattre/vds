@@ -39,7 +39,9 @@ function init() {
     $.ajax({
         url: 'ajax/getlesdonnees.php',
         dataType: 'json',
-        error: reponse => { msg.innerHTML = Std.genererMessage(reponse.responseText)},
+        error: reponse => {
+            msg.innerHTML = Std.genererMessage(reponse.responseText)
+        },
         success: remplirLesDonnees
     });
 
@@ -63,9 +65,9 @@ function init() {
                 // récupération de l'id du nom sélectionné
                 id = $nomPrenom.getSelectedItemData().id;
                 messageNomPrenom.innerText = "";
-
             },
             onLoadEvent: function () {
+                id = null;
                 let lesValeurs = $nomPrenom.getItems();
                 if (lesValeurs.length === 0) {
                     messageNomPrenom.innerText = "Aucun nom ne correspond";
@@ -109,7 +111,9 @@ function remplirLesDonnees(data) {
                         ajout: uneCase.checked ? 1 : 0,
                     },
                     dataType: 'json',
-                    error: reponse => { msg.innerHTML = Std.genererMessage(reponse.responseText)},
+                    error: reponse => {
+                        msg.innerHTML = Std.genererMessage(reponse.responseText)
+                    },
                 });
             };
             div.appendChild(uneCase);
@@ -149,18 +153,29 @@ function ajouterAdministrateur() {
             success: function () {
                 // ajout dans la zone de liste
                 idMembre.add(new Option(nomPrenom.value, id));
-                // effacement des données
-                $nomPrenom.val('');
-                id = null;
+                // afficher le nouveau administrateur dans la zone de liste
+                idMembre.selectedIndex = idMembre.length - 1;
+                // décocher les cases
+                decocherCase();
                 // fermeture de la fenêtre modale
-                $("#frmAjout").modal("hide")
-                Std.afficherSucces('Administrateur ajouté');
+                $("#frmAjout").modal("hide");
 
+                let parametre = {
+                    message: "<div class='m-3' style='text-align: justify' >" + nomPrenom.value + "fait maintenant partie des administrateurs.Il vous reste à sélectionner les modules qu'il peut gérer " + "</div>",
+                    type: 'success',
+                    fermeture: 1,
+                    surFermeture: function () {
+                        $nomPrenom.val('');
+                        id = null;
+                    }
+                }
+                Std.confirmerSucces(parametre);
             },
             error: reponse => msgFrmAjout.innerHTML = Std.genererMessage(reponse.responseText),
         });
     }
 }
+
 
 /**
  * demande de Suppression de l'administrateur actuellement sélectionné sur l'interface
@@ -175,7 +190,9 @@ function supprimerAdministrateur() {
             // un rafraichissement de la page parait la solution la plus simple
             document.location.reload(true);
         },
-        error: reponse => { msg.innerHTML = Std.genererMessage(reponse.responseText)},
+        error: reponse => {
+            msg.innerHTML = Std.genererMessage(reponse.responseText)
+        },
     });
 }
 
@@ -191,7 +208,9 @@ function chargerLesDroits() {
             idMembre: idMembre.value,
         },
         dataType: 'json',
-        error: reponse => { msg.innerHTML = Std.genererMessage(reponse.responseText)},
+        error: reponse => {
+            msg.innerHTML = Std.genererMessage(reponse.responseText)
+        },
         success: (data) => {
             decocherCase();
             // mise à jour de l'interface en cochant les cases correspondant aux droits de l'administrateur
@@ -214,7 +233,9 @@ function supprimerTousLesDroits() {
             idMembre: idMembre.value,
         },
         dataType: 'json',
-        error: reponse => { msg.innerHTML = Std.genererMessage(reponse.responseText)},
+        error: reponse => {
+            msg.innerHTML = Std.genererMessage(reponse.responseText)
+        },
         success: () => decocherCase()
     });
 }
@@ -231,7 +252,9 @@ function ajouterTousLesDroits() {
             idMembre: idMembre.value,
         },
         dataType: 'json',
-        error: reponse => { msg.innerHTML = Std.genererMessage(reponse.responseText)},
+        error: reponse => {
+            msg.innerHTML = Std.genererMessage(reponse.responseText)
+        },
         success: () => cocherCase()
     })
     ;

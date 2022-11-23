@@ -71,10 +71,7 @@ function connecter() {
             error: reponse => {
                 msg.innerHTML = Std.genererMessage(reponse.responseText)
             },
-            success: (url) => {
-                location.href = url
-            }
-
+            success: (url) => location.href = url
         })
     }
 }

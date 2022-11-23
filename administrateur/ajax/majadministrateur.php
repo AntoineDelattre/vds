@@ -19,7 +19,6 @@ if (!isset($_POST['idMembre']) || !isset($_POST['op'])) {
 $op = $_POST["op"];
 $idMembre = $_POST["idMembre"];
 
-
 // génération de la requête d'ajout d'un administrateur ou de suppression d'un administrateur op = 's'
 if ($op === "A") {
     $sql = <<<EOD

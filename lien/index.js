@@ -48,7 +48,6 @@ function afficher(data) {
         header.innerText = element.nom;
         header.style.height = "50px";
 
-
         // génération de l'icône de suppression avec un alignement à droite
         let btnSupprime = document.createElement('i');
         btnSupprime.classList.add("bi-x", "fs-2", "float-end");

@@ -30,6 +30,7 @@ require RACINE . '/include/head.php';
                     </div>
                 </label>
             </div>
+            <!-- Mon mot de passe : TEST.a00000 -->
 
 
             <div class="text-center mt-3 pl-3 pr-3">
