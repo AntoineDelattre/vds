@@ -26,7 +26,7 @@ require RACINE . '/include/head.php';
                    class="form-control ctrl  "
                    required
                    maxlength='50'
-                   pattern="^[A-Za-z]([A-Za-z0-9 ]*[A-Za-z0-9])*$"
+                   pattern="^[A-Za-zàáâãäåòóôõöøèéêëçìíîïùúûüÿñ]([A-Za-z0-9àáâãäåòóôõöøèéêëçìíîïùúûüÿñ'- ]*['-A-Za-z0-9àáâãäåòóôõöøèéêëçìíîïùúûüÿñ])*$"
                    autocomplete="off">
             <div class='messageErreur'></div>
         </div>
@@ -37,7 +37,7 @@ require RACINE . '/include/head.php';
                    class="form-control ctrl"
                    required
                    maxlength='50'
-                   pattern=""
+                   pattern="^(http://|https://)?(www.)?(([a-zA-Z0-9-]){2,}\.){1,4}([a-zA-Z]){2,6}(/([a-zA-Z-_/.0-9#:?=&;,]*)?)?"
                    autocomplete="off">
             <div class='messageErreur'></div>
         </div>

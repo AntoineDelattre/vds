@@ -34,7 +34,6 @@ function init() {
                 },
                 success: () => {
                     msg.innerHTML = Std.genererMessage("Votre login vient de vous êtes envoyé par mail", 'vert')
-                    Std.viderLesChamps();
                 }
             })
         }

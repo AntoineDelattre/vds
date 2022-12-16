@@ -62,11 +62,11 @@ function connecter() {
 
     if (Std.donneesValides()) {
         // demande de connexion
-
+        let memoriser = chkMemoriser.checked ? 1 : 0
         $.ajax({
             url: 'ajax/connecter.php',
             type: 'POST',
-            data: {login: login.value, password: password.value},
+            data: {login: login.value, password: password.value, memoriser: memoriser},
             dataType: 'json',
             error: reponse => {
                 msg.innerHTML = Std.genererMessage(reponse.responseText)

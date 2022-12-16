@@ -1,5 +1,8 @@
 <?php
 
+// Définir le fuseau horaire
+date_default_timezone_set('Europe/Paris');
+
 // Accès aux variables de session
 session_start();
 
@@ -24,3 +27,10 @@ spl_autoload_register(function ($name) {
     else
         require RACINE . "/$name/class/class.$name.php";
 });
+
+// Journalisation de la requête
+$nom = Std::getIp();
+if (isset($_SESSION['membre'])) {
+    $nom .= '(' . $_SESSION['membre']['nomPrenom'] . ')';
+}
+Std::tracerDemande('requete', $nom);

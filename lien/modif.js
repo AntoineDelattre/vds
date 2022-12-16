@@ -28,12 +28,7 @@ function init() {
     });
 
     // limiter les caractères autorisés lors de la frappe sur le champ nom
-    nom.onkeypress = (e) => /^[A-Za-z0-9 ]$/.test(e.key);
     nom.focus();
-
-    url.onkeypress = (e) => /^[A-Za-z0-9/:.]$/.test(e.key);
-
-    nomlogo.onkeypress = (e) => /^[A-Za-z0-9_]$/.test(e.key);
 
     // paramétrage de la zone d'upload
     cible.onclick = () => logo.click();
@@ -107,33 +102,33 @@ function controlerLogo(file) {
  * Modifie le lien
  */
 function modifier() {
+    if (Std.donneesValides()) {
+        let extension = messageCible.innerText.substr(-4);
+        let monFichier = new FormData();
+        monFichier.append('fichier', leFichier);
+        monFichier.append('id', lien.value);
+        monFichier.append('nom', nom.value);
+        monFichier.append('logo', nomlogo.value);
+        monFichier.append('url', url.value);
+        monFichier.append('imgChange', cible.value);
+        monFichier.append('extension', extension);
 
-    let extension = messageCible.innerText.substr(-4);
-    let monFichier = new FormData();
-    monFichier.append('fichier', leFichier);
-    monFichier.append('id', lien.value);
-    monFichier.append('nom', nom.value);
-    monFichier.append('logo', nomlogo.value);
-    monFichier.append('url', url.value);
-    monFichier.append('imgChange', cible.value);
-    monFichier.append('extension', extension);
-
-    $.ajax({
-        url: 'ajax/modifier.php',
-        type: 'POST',
-        data: monFichier,
-        processData: false,
-        contentType: false,
-        dataType: 'json',
-        success: function () {
-            let parametre = {
-                type: 'success',
-                message: 'Modification réalisé avec succès',
-                fermeture: 1,
-            }
-            Std.afficherMessage(parametre);
-
-        },
-        error: (reponse) => console.error(reponse.responseText)
-    });
+        $.ajax({
+            url: 'ajax/modifier.php',
+            type: 'POST',
+            data: monFichier,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function () {
+                let parametre = {
+                    type: 'success',
+                    message: 'Modification réalisé avec succès',
+                    fermeture: 1,
+                }
+                Std.afficherMessage(parametre);
+            },
+            error: (reponse) => console.error(reponse.responseText)
+        });
+    }
 }

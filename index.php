@@ -5,6 +5,57 @@
 
 require 'include/initialisation.php';
 
+if (!isset($_SESSION['visite'])) {
+    Std::comptabiliserVisite();
+    $_SESSION['visite'] = 1;
+}
+
+/*
+ * Si la variable de session 'membre' n'existe pas mais que le cookie 'seSouvenir' existe
+ * Il faut récupérer la valeur du cookie
+ * On vérifie qu'elle correspond à un membre
+ * Si oui : on crée la variable de session 'membre'
+ * Si non : on supprime le cookie
+*/
+
+if (!isset($_SESSION['membre']) && isset($_COOKIE['seSouvenir'])) {
+    $seSouvenir = $_COOKIE['seSouvenir'];
+
+    // Vérification du login
+    $db = Database::getInstance();
+    $sql = <<<EOD
+        Select id, login, nom, prenom
+        from membre
+        where :empreinte = sha2(concat(prenom, login, nom, :agent), 256);
+EOD;
+    $curseur = $db->prepare($sql);
+    $curseur->bindParam('empreinte', $seSouvenir);
+    $curseur->bindParam('agent', $_SERVER['HTTP_USER_AGENT']);
+    $curseur->execute();
+    $ligne = $curseur->fetch(PDO::FETCH_ASSOC);
+    $curseur->closeCursor();
+    if ($ligne) {
+        $_SESSION['membre']['id'] = $ligne['id'];
+        $_SESSION['membre']['login'] = $ligne['login'];
+        $_SESSION['membre']['nomPrenom'] = $ligne['prenom'] . ' ' . $ligne['nom'];
+        // enregistrer la connexion
+        Std::enregistrerConnexion($ligne['id']);
+        Std::tracerDemande('connexion', $_SESSION['membre']['nomPrenom']);
+        $option['path'] = '/';
+        $option['httponly'] = true;
+        // Réinitialiser la date d'expiration du cookie
+        $option['expires'] = time() + 3600 * 24 * 7;
+        $empreinte = hash('sha256', $ligne['prenom'] . $ligne['login'] . $ligne['nom'] . $_SERVER['HTTP_USER_AGENT']);
+        setcookie('seSouvenir', $empreinte, $option);
+    } else {
+        // Expirer le cookie
+        $option['expires'] = time() - 1;
+        $option['path'] = '/';
+        $option['httponly'] = true;
+        setcookie('seSouvenir', 0, $option);
+    }
+}
+
 // Génération du contenu du cadre membre
 $cadreMembre = "";
 if (isset($_SESSION['membre'])) {
@@ -36,7 +87,6 @@ if (isset($_SESSION['membre'])) {
     $id = $_SESSION['membre']['id'];
     // la classe base est chargée dynamiquement
     $lesLignes = Base::getLesModules($id);
-
     if ($lesLignes) {
         foreach ($lesLignes as $ligne) {
             $nom = $ligne['nom'];
@@ -109,7 +159,7 @@ require RACINE . '/include/head.php';
 <div id="msg" class="m-3"></div>
 <div class="card border-dark mx-2 mb-2">
     <div class="card-header text-white" style="background-color: #343a40">
-        <span style="" class="card-text">Quelques lien utiles concernant la course à pied</span>
+        <span style="" class="card-text">Quelques liens utiles concernant la course à pied</span>
     </div>
     <div class="card-body">
         <div id='liens' class=""></div>

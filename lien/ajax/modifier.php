@@ -12,7 +12,7 @@ const REP_PHOTO = RACINE . '/data/logolien/';
 
 // vérification de la transmission des paramètres
 // Vérification des paramètres attendus
-if (!Controle::existe('id', 'nom', 'url', 'logo', 'extension')) {
+if (!Controle::existe('id', 'nom', 'url', 'logo')) {
     echo "Paramètre manquant";
     exit;
 }
@@ -67,7 +67,7 @@ if ($imgChange == 1) {
         if (lien::modifier($id, $nom, $url, $logo, $reponse)) {
             // suppression de l'ancien logo
             unlink(REP_PHOTO . $ancienNom);
-            // copie sur le serveur
+            // copie sur le serveur du nouveau logo
             copy($tmp, REP_PHOTO . $logo);
         }
     }
